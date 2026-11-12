@@ -29,6 +29,18 @@ class ChipSpecialRegister_test < Minitest::Test
     
     @sound.timed_countdown(100.017)
     assert_equal 4, @sound.read_register(0)
+
+    @sound.timed_countdown(100.034)
+    assert_equal 3, @sound.read_register(0)
+
+    @sound.timed_countdown(100.051)
+    assert_equal 2, @sound.read_register(0)
+
+    @sound.timed_countdown(100.068)
+    assert_equal 1, @sound.read_register(0)
+
+    @sound.timed_countdown(100.085)
+    assert_equal 0, @sound.read_register(0)
   end
 
 end
