@@ -2,11 +2,25 @@ require_relative 'ChipMem'
 require_relative 'ChipRegister'
 require_relative 'ChipStack'
 
-memory = Chip8::ChipMem.new
-GPRs = Chip8::ChipRegister.new(16) #GPRs[0xF] is our flag register
-#Two specialty registers exist, timer and sound. implement later!
-IR = Chip8::ChipRegister.new(1)
-SP = Chip8::ChipRegister.new(1)
-PC = Chip8::ChipRegister.new(1)
-Stack = Chip8::ChipStack.new(16)
-PC.write_register(0,0x200)
+module Chip8
+    class Chip8
+        def initialize(rom)
+            @memory = Chip8::ChipMem.new
+            @gprs = Chip8::ChipRegister.new(16) #GPRs[0xF] is our flag register
+            @ir = Chip8::ChipRegister.new(1)
+            @sp = Chip8::ChipRegister.new(1)
+            @pc = Chip8::ChipRegister.new(1)
+            @stack = Chip8::ChipStack.new(16)
+            @sound = Chip8::SoundRegister.new(1)
+            @delay = Chip8::DelayRegister.new(1)
+            @pc.write_register(0,0x200)
+            @memory.mass_write(@pc.read_register(0),rom)
+        end
+
+        def start()
+            while true
+            end
+        end
+    end
+end
+            
