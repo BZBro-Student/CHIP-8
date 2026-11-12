@@ -21,6 +21,12 @@ module Chip8
             while true
             end
         end
+
+        def getOp()
+        end
+        
+        def performOp()
+        end
     end
 end
             
