@@ -27,59 +27,38 @@ module Chip8
 
     class DelayRegister < ChipRegister
 
-        @previous_cycle_time
+        def initialize
+            super(1) # Delay timer is a single register
+            @previous_cycle_time = nil
+        end
         
-        #decrements value, if the register is inactive it is false else it decrements and returns true
+        #decrements value, if the register is inactive it is false 
+        #else it decrements and returns true
         def decrement()
-            curr_delay = @reg.read_register(0)
-            if curr_delay <= 0
-                return false
-            end
-            @reg.write_register(0,curr_delay - 1)
-            return true
+            curr_delay = read_register(0)
+            return false if curr_delay <= 0
+            write_register(0,curr_delay - 1)
+            true
         end
 
         def timed_countdown(start_cycle_time)
             if @previous_cycle_time == nil 
-                @previous_cycle_time == start_cycle_time
+                @previous_cycle_time = start_cycle_time
             end
 
-            if ((start_cycle_time - previous_cycle_time) * 1000.0) >= 16.6
-                previous_cycle_time = start_cycle_time
+            if ((start_cycle_time - @previous_cycle_time) * 1000.0) >= 16.6
+                @previous_cycle_time = start_cycle_time
+                decrement if read_register(0) > 0
             end
-            if (@reg.read_register(0) > 0) {
-                @reg.decrement()
-            }
         end
     end
 
-    class SoundRegister < ChipRegister
-        @previous_cycle_time
-        
-        #decrements value, if the register is inactive it is false else it decrements and returns true
-        def decrement()
-            curr_delay = @reg.read_register(0)
-            if curr_delay <= 0
-                return false
-            end
-            @reg.write_register(0,curr_delay - 1)
-            return true
-        end
-
+    class SoundRegister < DelayRegister
         def timed_countdown(start_cycle_time)
-            if @previous_cycle_time == nil 
-                @previous_cycle_time == start_cycle_time
-            end
-            if ((start_cycle_time - previous_cycle_time) * 1000.0) >= 16.6
-                previous_cycle_time = start_cycle_time
-            end
-            if (@reg.read_register(0) > 0) {
-                play_sound()
-                @reg.decrement()
-            }
+            super(start_cycle_time)
+            play_sound() if read_register(0) > 0 
         end
 
-        #find a way to produce a tone
         def play_sound()
             puts "\a"
         end
