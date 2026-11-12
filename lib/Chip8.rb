@@ -1,4 +1,6 @@
 require_relative 'ChipMem'
+require_relative 'ChipRegister'
+require_relative 'ChipStack'
 
 memory = Chip8::ChipMem.new
 GPRs = Chip8::ChipRegister.new(16) #GPRs[0xF] is our flag register
