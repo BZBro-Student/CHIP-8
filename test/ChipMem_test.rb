@@ -15,6 +15,16 @@ class ChipMem_test < Minitest::Test
         assert_equal 1, @memory.read_ram(0x200)
     end
 
+    def test_mass_read
+        assert_equal [0xF0,0x90,0x90,0x90,0xF0], @memory.mass_read(0x050,5)
+    end
+
+    def test_mass_read_failure
+        assert_raises(IndexError) do
+            @memory.mass_read(4095,3)
+        end
+    end
+
     def test_read_failure
         assert_raises(IndexError) do
             @memory.read_ram(-1)
