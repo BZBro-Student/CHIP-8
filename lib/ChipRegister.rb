@@ -60,7 +60,7 @@ module Chip8
         end
 
         def play_sound()
-            puts "\a"
+            print "\a"
         end
     end
 

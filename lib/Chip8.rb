@@ -11,14 +11,14 @@ module Chip8
             @sp = Chip8::ChipRegister.new(1)
             @pc = Chip8::ChipRegister.new(1)
             @stack = Chip8::ChipStack.new(16)
-            @sound = Chip8::SoundRegister.new(1)
-            @delay = Chip8::DelayRegister.new(1)
+            @sound = Chip8::SoundRegister.new
+            @delay = Chip8::DelayRegister.new
             @pc.write_register(0,0x200)
             @memory.mass_write(@pc.read_register(0),rom)
         end
 
         def start()
-            while true
+            loop do
             end
         end
 
